@@ -1,4 +1,4 @@
-name: Lint C# code
+name: Lint C# code 👮‍♀️
 on: [push, pull_request]
 jobs:
   build:
