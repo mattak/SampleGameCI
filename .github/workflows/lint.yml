@@ -1,6 +1,5 @@
 name: Lint C# code
-on:
-  [push, pull]
+on: [push, pull_request]
 jobs:
   build:
     name: Lint Code
