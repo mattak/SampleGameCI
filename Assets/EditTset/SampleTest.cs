@@ -5,9 +5,9 @@ namespace Sample
     public class SampleTest
     {
         [Test]
-        public void ParseTest()
+        public void CalcTest()
         {
-            Assert.AreEqual(1 + 1, 1, "must be same");
+            Assert.AreEqual(1 + 1, 2, "must be same");
         }
     }
 }
