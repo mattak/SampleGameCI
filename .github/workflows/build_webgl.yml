@@ -1,6 +1,10 @@
 name: Build 😎
 
-on: [push, pull_request]
+on: 
+  push:
+    branches:
+      - master
+  workflow_dispatch: {}
 
 jobs:
   build:
@@ -29,6 +33,13 @@ jobs:
         with:
           targetPlatform: WebGL
           unityVersion: 2021.1.28f1
+
+      # GithubPages
+      - name: Github Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.7
+        with:
+          branch: gh-pages
+          folder: build
 
       # Output
       - uses: actions/upload-artifact@v2
