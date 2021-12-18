@@ -4,9 +4,9 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  build:
-    name: Build iOS 🍎
-    runs-on: macos-latest
+  buildUnity:
+    name: Build Unity for iOS 🍎
+    runs-on: linux-latest
     timeout-minutes: 60
     steps:
       # Checkout
@@ -36,3 +36,24 @@ jobs:
         with:
           name: Build
           path: build
+
+  buildIOS:
+    name: Build by Xcode
+    runs-on: macos-latest
+    timeout-minutes: 60
+    needs: bulidUnity
+    steps:
+      # Download xcode project
+      - name: Download xcode project
+        uses: actions/download-artifact@v2
+        with:
+          name: ios
+          path: build/iOS
+          
+      # Debug
+      - name: Print for debug
+        run: |
+          pwd
+          ls -lha
+          find build/iOS -type d -max-depth 2
+
