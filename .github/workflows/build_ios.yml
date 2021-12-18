@@ -1,0 +1,59 @@
+name: Build iOS 🍎
+
+on: 
+  workflow_dispatch: {}
+
+jobs:
+  buildUnity:
+    name: Build Unity for iOS 🍎
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      # Cache
+      - uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          targetPlatform: iOS
+
+      # Output
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: build
+
+  buildIOS:
+    name: Build by Xcode
+    runs-on: macos-latest
+    timeout-minutes: 60
+    needs: buildUnity
+    steps:
+      # Download xcode project
+      - name: Download xcode project
+        uses: actions/download-artifact@v2
+        with:
+          name: ios
+          path: build/iOS
+
+      # Debug
+      - name: Print for debug
+        run: |
+          pwd
+          ls -lha
+          find build/iOS -type d -max-depth 2
+
