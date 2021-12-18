@@ -41,7 +41,7 @@ jobs:
     name: Build by Xcode
     runs-on: macos-latest
     timeout-minutes: 60
-    needs: bulidUnity
+    needs: buildUnity
     steps:
       # Download xcode project
       - name: Download xcode project
@@ -49,7 +49,7 @@ jobs:
         with:
           name: ios
           path: build/iOS
-          
+
       # Debug
       - name: Print for debug
         run: |
