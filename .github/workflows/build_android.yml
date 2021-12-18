@@ -1,14 +1,11 @@
-name: Build WebGL 😎
+name: Build Android 🫑
 
 on: 
-  push:
-    branches:
-      - master
   workflow_dispatch: {}
 
 jobs:
   build:
-    name: Build my project ✨
+    name: Build Android 🫑
     runs-on: ubuntu-latest
     steps:
       # Checkout
@@ -31,18 +28,15 @@ jobs:
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          targetPlatform: WebGL
-
-      # GithubPages
-      - name: Github Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.7
-        with:
-          branch: gh-pages
-          folder: build
+          targetPlatform: Android
+          androidKeystoreName: project.keystore
+          androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+          androidKeyaliasName: ${{ secrets.ANDROID_KEYALIAS_NAME }}
+          androidKeyaliasPass: ${{ secrets.ANDROID_KEYALIAS_PASS }}
 
       # Output
       - uses: actions/upload-artifact@v2
         with:
           name: Build
           path: build
-
